@@ -2,6 +2,8 @@
 #include <WiFi.h>
 #include "api_request.h"
 #include <ArduinoJson.h>
+#include "lcd_i2c.h"
+
 
 const char* busStop_arrivals = "http://telematics.oasa.gr/api/?act=getStopArrivals&p1=061061";
 const char* busStop_information = "http://telematics.oasa.gr/api/?act=webRoutesForStop&p1=061061";
@@ -89,6 +91,10 @@ void get_request(){
       
       // combine two deserialized json objets to create final version of printable message
       combineAndPrintRoutes(doc_time, doc_ids);
+
+      // combine and print to lcd monitor using I2C module 
+      print2LCD(doc_time, doc_ids);
+      
     }else {
         Serial.println("Wi-Fi not connected");
     }
