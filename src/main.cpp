@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
-#include "./modules/wifi_module.h"
-#include "./modules/api_request.h"
-#include "./modules/lcd_i2c.h"
+#include <wifi_module.h>
+#include <api_request.h>
+#include <lcd_i2c.h>
 
 
 void setup() {

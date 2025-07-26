@@ -1,6 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <ArduinoJson.h>
-#include "lcd_i2c.h"
+#include "../include/lcd_i2c.h"
 
 int rows = 2;
 int columns = 16;

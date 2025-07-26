@@ -1,8 +1,8 @@
 #include <HTTPClient.h>
 #include <WiFi.h>
-#include "api_request.h"
+#include "../include/api_request.h"
 #include <ArduinoJson.h>
-#include "lcd_i2c.h"
+#include "../include/lcd_i2c.h"
 
 
 const char* busStop_arrivals = "http://telematics.oasa.gr/api/?act=getStopArrivals&p1=061061";
