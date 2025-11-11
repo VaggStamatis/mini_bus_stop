@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 Configuration</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #74ABE2, #5563DE);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 0.5rem;
+      margin-top: 0.3rem;
+    }
+
+    input[type="submit"] {
+      background: #00c6ff;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      color: white;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background: #0072ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>ESP32 Wi-Fi Setup</h2>
+    <form action="/save" method="POST">
+      <label for="ssid">Wi-Fi SSID</label>
+      <input type="text" id="ssid" name="ssid" required>
+
+      <label for="pass">Password</label>
+      <input type="password" id="pass" name="pass" required>
+
+      <label for="f1">BusStop1</label>
+      <input type="text" id="f1" name="f1">
+
+      <label for="f2">BusStop2</label>
+      <input type="text" id="f2" name="f2">
+
+      <label for="f3">BusStop3</label>
+      <input type="text" id="f3" name="f3">
+
+      <label for="f4">BusStop4</label>
+      <input type="text" id="f4" name="f4">
+
+      <input type="submit" value="Save & Connect">
+    </form>
+  </div>
+</body>
+</html>
