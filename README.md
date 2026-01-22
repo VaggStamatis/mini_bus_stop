@@ -62,6 +62,27 @@ On a live test (image below) we can see that in our specified bus stop the bus w
 ![Alt text](/assets/demo_1.jpg)
 
 
+### UseFull Commands
+
+Upload html to spiffs in order to serve it to user 
+> pio run -t uploadfs
+
+Upload firmware to target 
+> pio run -t upload 
+
+Open serial monitor
+> pio device monitor
+
+Erase Flash (Spiffs)
+> python -m esptool --chip esp32 erase-flash
+
+
 # Creator
 Evangelos Stamatis. 
 For more information and questions regarding the project setup and functionality please contant me on the email: evanstamatis@gmail.com 
+
+
+## TO DO
+BustStops loaded as empty from the SPIFFS check it out
+Timings and flow after connecting to WIFI is off
+Never actually loads the stops and makes the requests to print the data afterwards
