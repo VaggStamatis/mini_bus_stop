@@ -1,4 +1,5 @@
 #pragma once
+#include "../api/OasaClient.h"
 #include <Arduino.h>
 
 enum AppState {
@@ -19,7 +20,7 @@ public:
 private:
   static AppState state;
   static unsigned long stateTimestamp;
-
+  static OasaClient apiClient;
   static uint8_t currentBusStopIndex;
 
   static void changeState(AppState newState);
