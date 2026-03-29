@@ -1,5 +1,6 @@
 #include "OasaClient.h"
 #include "../services/ArrivalMerger.h"
+#include "ArrivalStore.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -7,7 +8,7 @@ bool OasaClient::fetchArrivals(const String &stopCode, String &response)
 {
   char url[128];
   snprintf(url, sizeof(url),
-           "http://telematics.oasa.gr/api/?act=getStopArrivals&p1=%s",
+           "https://telematics.oasa.gr/api/?act=getStopArrivals&p1=%s",
            stopCode.c_str());
 
   if (!httpGet(url, response))
@@ -32,7 +33,7 @@ bool OasaClient::fetchRoutes(const String &stopCode, String &response)
 {
   char url[128];
   snprintf(url, sizeof(url),
-           "http://telematics.oasa.gr/api/?act=webRoutesForStop&p1=%s",
+           "https://telematics.oasa.gr/api/?act=webRoutesForStop&p1=%s",
            stopCode.c_str());
 
   if (!httpGet(url, response))
@@ -66,6 +67,7 @@ bool OasaClient::fetchAndMerge(const String &stopCode)
         return false;
 
     auto merged = ArrivalMerger::merge(arrivalsJson, routesJson);
+    ArrivalStore::arrivals = merged;  // ✅ store results
 
     Serial.println("===== MERGED RESULT =====");
 

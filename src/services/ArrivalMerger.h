@@ -10,7 +10,9 @@ public:
         const String& arrivalsJson,
         const String& routesJson
     );
+    static String toGreeklish(const String& greek);
 
 private:
     static String extractDestination(const String& lineDescr);
 };
+

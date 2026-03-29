@@ -2,6 +2,7 @@
 #include "wifi/WiFiController.h"
 #include "lcd/LcdManager.h"
 #include "config/ConfigManager.h"
+#include "api/ArrivalStore.h"
 #include "api/OasaClient.h"
 
 AppState AppStateMachine::state = APP_INIT;
@@ -35,15 +36,28 @@ void AppStateMachine::loop() {
     }
 
     case APP_NEXT_BUS_STOP: {
+
+      static bool shown = false;
+
+      // Skip empty stops
       if (config.busStops[currentBusStopIndex].length() == 0) {
         currentBusStopIndex = (currentBusStopIndex + 1) % 4;
         break;
       }
 
-      LcdManager::setLine(0, "Bus Stop");
-      LcdManager::setLine(1, config.busStops[currentBusStopIndex]);
+      // 🖨️ Show ONLY once when entering state
+      if (!shown) {
+        LcdManager::setLine(0, "Bus Stop");
+        LcdManager::setLine(1, config.busStops[currentBusStopIndex]);
+        shown = true;
+      }
 
-      changeState(APP_FETCHING_DATA);
+      // ⏱️ Wait 2.5 seconds before fetching
+      if (millis() - stateTimestamp > 2500) {
+        shown = false;  // reset for next time
+        changeState(APP_FETCHING_DATA);
+      }
+
       break;
     }
 
@@ -61,10 +75,52 @@ void AppStateMachine::loop() {
     }
 
     case APP_DISPLAY_DATA: {
-      if (millis() - stateTimestamp > 5000) {
+      static unsigned long lastRotate = 0;
+      static int displayIndex = 0;
+
+      auto &arrivals = ArrivalStore::arrivals;
+
+      if (arrivals.empty()) {
+        LcdManager::setLine(0, "No arrivals");
+        LcdManager::setLine(1, "");
+      } 
+      else {
+
+        // 🔁 Rotate every 3 seconds
+        if (millis() - lastRotate > 3000) {
+          displayIndex++;
+
+          if (displayIndex >= arrivals.size()) {
+            displayIndex = 0;
+          }
+
+          lastRotate = millis();
+        }
+
+        // 🚌 Current bus
+        auto &bus = arrivals[displayIndex];
+
+        // Line 1 → "4 in 3 min"
+        String line1 = bus.line + " in " + String(bus.minutes) + " min";
+
+        // Line 2 → destination
+        String line2 = bus.destination;
+
+        // ✂️ Ensure 16 char max
+        line1 = line1.substring(0, 16);
+        line2 = line2.substring(0, 16);
+
+        LcdManager::setLine(0, line1);
+        LcdManager::setLine(1, line2);
+      }
+
+      // ⏱️ Stay longer on each stop now (important!)
+      if (millis() - stateTimestamp > 15000) {  // 👈 increased from 5s
+        displayIndex = 0;
         currentBusStopIndex = (currentBusStopIndex + 1) % 4;
         changeState(APP_NEXT_BUS_STOP);
       }
+
       break;
     }
 

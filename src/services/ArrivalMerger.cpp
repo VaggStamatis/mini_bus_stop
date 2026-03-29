@@ -34,7 +34,7 @@ std::vector<BusArrival> ArrivalMerger::merge(
     {
 
         String routeCode = obj["RouteCode"].as<String>();
-        String lineCode = obj["LineCode"].as<String>();
+        String lineCode = obj["LineID"].as<String>();
         String lineDescr = obj["LineDescr"].as<String>();
 
         String destination = extractDestination(lineDescr);
@@ -54,8 +54,8 @@ std::vector<BusArrival> ArrivalMerger::merge(
         if (routesMap.find(routeCode) == routesMap.end())
             continue;
 
-        String line = routesMap[routeCode].first;
-        String destination = routesMap[routeCode].second;
+        String line = toGreeklish(routesMap[routeCode].first);
+        String destination = toGreeklish(routesMap[routeCode].second);
 
         for (int minutes : arrivalPair.second)
         {
@@ -83,4 +83,63 @@ String ArrivalMerger::extractDestination(const String &lineDescr)
     String dest = lineDescr.substring(idx + 1);
     dest.trim();
     return dest;
+}
+
+String ArrivalMerger::toGreeklish(const String& greek) {
+
+    String result = greek;
+
+    result.replace("Α", "A");
+    result.replace("Β", "V");
+    result.replace("Γ", "G");
+    result.replace("Δ", "D");
+    result.replace("Ε", "E");
+    result.replace("Ζ", "Z");
+    result.replace("Η", "I");
+    result.replace("Θ", "TH");
+    result.replace("Ι", "I");
+    result.replace("Κ", "K");
+    result.replace("Λ", "L");
+    result.replace("Μ", "M");
+    result.replace("Ν", "N");
+    result.replace("Ξ", "X");
+    result.replace("Ο", "O");
+    result.replace("Π", "P");
+    result.replace("Ρ", "R");
+    result.replace("Σ", "S");
+    result.replace("Τ", "T");
+    result.replace("Υ", "Y");
+    result.replace("Φ", "F");
+    result.replace("Χ", "CH");
+    result.replace("Ψ", "PS");
+    result.replace("Ω", "O");
+
+    // lowercase (optional but useful)
+    result.replace("α", "a");
+    result.replace("β", "v");
+    result.replace("γ", "g");
+    result.replace("δ", "d");
+    result.replace("ε", "e");
+    result.replace("ζ", "z");
+    result.replace("η", "i");
+    result.replace("θ", "th");
+    result.replace("ι", "i");
+    result.replace("κ", "k");
+    result.replace("λ", "l");
+    result.replace("μ", "m");
+    result.replace("ν", "n");
+    result.replace("ξ", "x");
+    result.replace("ο", "o");
+    result.replace("π", "p");
+    result.replace("ρ", "r");
+    result.replace("σ", "s");
+    result.replace("ς", "s");
+    result.replace("τ", "t");
+    result.replace("υ", "y");
+    result.replace("φ", "f");
+    result.replace("χ", "ch");
+    result.replace("ψ", "ps");
+    result.replace("ω", "o");
+
+    return result;
 }
