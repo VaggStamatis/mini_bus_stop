@@ -114,6 +114,8 @@ Erase Flash (Spiffs)
 Evangelos Stamatis. 
 For more information and questions regarding the project setup and functionality please contant me on the email: evanstamatis@gmail.com 
 
+## YouTube video 
+https://youtu.be/CQ-oXIufYDI
 
 ## TO DO
 - Print only the 3 or 5 most recently coming buses to each stop
